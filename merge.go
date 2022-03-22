@@ -20,8 +20,7 @@ func merge(cur, patch *lazyNode, mergeMerge bool) *lazyNode {
 	if err != nil {
 		return patch
 	}
-
-	mergeDocs(curDoc, patchDoc, mergeMerge)
+	mergeDocs2(curDoc, patchDoc, mergeMerge)
 
 	return cur
 }
@@ -46,6 +45,24 @@ func mergeDocs(doc, patch *partialDoc, mergeMerge bool) {
 			} else {
 				(*doc)[k] = merge(cur, v, mergeMerge)
 			}
+		}
+	}
+}
+
+func mergeDocs2(doc, patch *partialDoc, mergeMerge bool) {
+	for k, v := range *patch {
+		if v == nil {
+			if mergeMerge {
+				(*doc)[k] = nil
+			} else {
+				delete(*doc, k)
+			}
+		} else {
+			if !mergeMerge {
+				pruneNulls(v)
+			}
+
+			(*doc)[k] = v
 		}
 	}
 }
