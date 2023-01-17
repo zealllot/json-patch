@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	jsonpatch "github.com/evanphx/json-patch"
 	flags "github.com/jessevdk/go-flags"
+	jsonpatch "github.com/zealllot/json-patch"
 )
 
 type opts struct {
